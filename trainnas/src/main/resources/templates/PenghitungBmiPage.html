@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Penghitung BMI</title>
+    <style>
+        .card{
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 0 50px #ccc;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .header{
+            height: 30%;
+            background: #023047;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+        .container{
+            padding: 2px 16px;
+        }
+        .kategori{
+            text-align: center;
+            color: #fb8500;
+            padding: 10px 0px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="card">
+            <div class="header">
+                <p>Penghitung BMI</p>
+            </div>
+
+            <div class="container">
+                <th:block th:if="${penghitungBmi != null}">
+                    <p>
+                        Berat badan :
+                        <span th:text="${penghitungBmi.getWeight()} + ' kg' "></span>
+                    </p>
+                    <p>
+                        Tinggi badan :
+                        <span th:text="${penghitungBmi.getHeight()} + ' m' "></span>
+                    </p>
+                    <p>
+                        <strong>
+                            Hasil BMI: 
+                            <span th:text="${penghitungBmi.hitungBmi()}"></span>
+                        </strong>
+                    </p>
+                    <p class="kategori">
+                        <span th:text="${penghitungBmi.getKategori()}"></span>
+                    </p>
+                </th:block>
+
+                <div th:unless="${penghitungBmi != null}">
+                    <h3 class="kategori" th.text="${msg}"></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
