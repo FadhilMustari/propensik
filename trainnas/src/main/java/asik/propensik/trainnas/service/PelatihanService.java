@@ -42,8 +42,8 @@ public class PelatihanService {
         var pelatihan = getPelatihanById(id);
         pelatihan.setStatusApproval(5);
         pelatihanDb.save(pelatihan);
-    }
-
+    }   
+    
     public Pelatihan updatePelatihan(Pelatihan pelatihanFromDto) {
         Pelatihan pelatihan = getPelatihanById(pelatihanFromDto.getIdPelatihan());
 

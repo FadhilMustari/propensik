@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import asik.propensik.trainnas.dto.PelatihanMapper;
 import asik.propensik.trainnas.dto.request.CreatePelatihanRequestDTO;
 import asik.propensik.trainnas.dto.request.DaftarPelatihanDTO;
@@ -22,6 +24,11 @@ import asik.propensik.trainnas.model.Pelatihan;
 import asik.propensik.trainnas.model.Pendaftaran;
 import asik.propensik.trainnas.service.PelatihanService;
 import asik.propensik.trainnas.service.PendaftaranService;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+
 
 @Controller
 public class PelatihanController {
@@ -33,12 +40,17 @@ public class PelatihanController {
 
     @Autowired
     PendaftaranService pendaftaranService;
-
+    
     @RequestMapping("/")
     public String hello() {
         return "home";
     }
 
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+    
     @GetMapping("/pelatihan/add")
     public String formAddPelatihan(Model model) {
         var pelatihanDTO = new CreatePelatihanRequestDTO();
