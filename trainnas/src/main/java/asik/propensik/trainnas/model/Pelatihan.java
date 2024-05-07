@@ -1,27 +1,23 @@
 package asik.propensik.trainnas.model;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -60,6 +56,9 @@ public class Pelatihan {
     @Column(name = "tanggal_pelatihan", nullable = false)
     private Date tanggal;
 
+    @NotNull
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = Boolean.FALSE;
@@ -72,12 +71,4 @@ public class Pelatihan {
 
     @Column(columnDefinition = "timestamp", nullable = false)
     private LocalDateTime waktuPembuatan = LocalDateTime.now();
-
-    // @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnore
-    // private List<UserModel> userRole;
-
-    @OneToMany(mappedBy = "idPelatihan", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    private List<PelatihanTrainee> listPelatihanTrainee = new ArrayList<>();
 }

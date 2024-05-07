@@ -21,7 +21,6 @@
 
 <body>
     <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
-    <br><br><br>
     <div class="container">
         <div class="detail-heading text-center">
             <div th:switch="${pelatihan.tipe}">
@@ -32,7 +31,7 @@
         <div class="card">
             <div class="card-body" th:if="${pelatihan.statusApproval != 5}">
                 <h3 class="card-title" th:text="${pelatihan.namaPelatihan}"></h3>
-<!--                <img th:src="${pelatihan.image}" alt="Pelatihan Image" style="max-width: 100%; height: auto;" />-->
+                <img th:src="${pelatihan.image}" alt="Pelatihan Image" style="max-width: 100%; height: auto;" />
                 <p class="card-text"><strong>Deskripsi:</strong> <span th:text="${pelatihan.deskripsi}"></span></p>
                 <p class="card-text"><strong>Waktu dan Lokasi:</strong> <span th:text="${pelatihan.tanggal}"></span></p>
                 <p class="card-text"><strong>Narahubung:</strong> <span th:text="${pelatihan.narahubung}"></span></p>
@@ -44,10 +43,9 @@
             </div>
             <div class="card-body" th:if="${pelatihan.statusApproval == 5}">
                 <h3 class="card-title" th:text="${pelatihan.namaPelatihan}"></h3>
-<!--                <img th:src="${pelatihan.image}" alt="Pelatihan Image" style="max-width: 100%; height: auto;" />-->
+                <img th:src="${pelatihan.image}" alt="Pelatihan Image" style="max-width: 100%; height: auto;" />
                 <p class="card-text"><strong>Deskripsi:</strong> <span th:text="${pelatihan.deskripsi}"></span></p>
-                <p class="card-text"><strong>Waktu Pelaksanaan:</strong> <span th:text="${pelatihan.tanggal}"></span></p>
-                <p class="card-text"><strong>Lokasi Pelaksanaan:</strong> <span th:text="${pelatihan.tempat}"></span></p>
+                <p class="card-text"><strong>Waktu dan Lokasi:</strong> <span th:text="${pelatihan.tanggal}"></span></p>
                 <p class="card-text"><strong>Narahubung:</strong> <span th:text="${pelatihan.narahubung}"></span></p>
                 <a type="button" class="btn btn-danger btn-sm"
                     th:href="@{/pelatihan/delete(id=${pelatihan.idPelatihan})}">Hapus</a>

@@ -24,5 +24,6 @@ public class CreatePelatihanRequestDTO {
     private String narahubung;
     @NotNull
     private String tipe;
-
+    @NotNull
+    private String image;
 }

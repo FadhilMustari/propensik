@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 import asik.propensik.trainnas.dto.PelatihanMapper;
 import asik.propensik.trainnas.dto.request.CreatePelatihanRequestDTO;
 import asik.propensik.trainnas.dto.request.DaftarPelatihanDTO;
@@ -24,11 +22,6 @@ import asik.propensik.trainnas.model.Pelatihan;
 import asik.propensik.trainnas.model.Pendaftaran;
 import asik.propensik.trainnas.service.PelatihanService;
 import asik.propensik.trainnas.service.PendaftaranService;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-
 
 @Controller
 public class PelatihanController {
@@ -40,20 +33,12 @@ public class PelatihanController {
 
     @Autowired
     PendaftaranService pendaftaranService;
-    
-    @RequestMapping("/")
-    public String hello(Model model) {
-        List<Pelatihan> listPelatihan = pelatihanService.getAllApprovedPelatihan();
 
-        model.addAttribute("listPelatihan", listPelatihan);
+    @RequestMapping("/")
+    public String hello() {
         return "home";
     }
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-    
     @GetMapping("/pelatihan/add")
     public String formAddPelatihan(Model model) {
         var pelatihanDTO = new CreatePelatihanRequestDTO();
@@ -112,7 +97,7 @@ public class PelatihanController {
         System.out.println(daftarDTO.getNamaLengkap() + "/n ini nama lengkap");
 
         pendaftaranService.daftarPelatihan(pelatihanId, daftarDTO);
-        return "trainee/succes-mendaftar-pelatihan";
+        return "redirect:/pelatihan/viewall"; // Asumsi bahwa Anda memiliki halaman yang menampilkan semua pelatihan
     }
 
     @GetMapping("/pelatihan/searchTrainee")
@@ -245,7 +230,8 @@ public class PelatihanController {
             @RequestParam("tempat") String tempat,
             @RequestParam("deskripsi") String deskripsi,
             @RequestParam("narahubung") String narahubung,
-            @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("tanggal") Date tanggal) {
+            @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("tanggal") Date tanggal,
+            @RequestParam("image") String image) {
 
         var pelatihanDTO = new UpdatePelatihanRequestDTO();
         pelatihanDTO.setIdPelatihan(idPelatihan);
@@ -255,6 +241,7 @@ public class PelatihanController {
         pelatihanDTO.setDeskripsi(deskripsi);
         pelatihanDTO.setNarahubung(narahubung);
         pelatihanDTO.setTanggal(new java.sql.Date(tanggal.getTime()));
+        pelatihanDTO.setImage(image);
 
         System.out.println(pelatihanDTO.getIdPelatihan() + "ini adalah id pelatihan");
 
@@ -346,50 +333,5 @@ public class PelatihanController {
     // return "trainee/trainee-viewall-pelatihan";
 
     // }
-    @GetMapping("/pelatihan/filterPelatihanTrainee")
-    public String filterPelatihanTrainee(@RequestParam("sortType") String sortType, Model model) {
-        System.out.println("masuk filter");
-        if("All".equals(sortType)){
-            List<Pelatihan> listPelatihan = pelatihanService.getAllApprovedPelatihan();
-            model.addAttribute("listPelatihan", listPelatihan);
-        } else if ("Gernastastaka".equals(sortType)) {
-            List<Pelatihan> listPelatihan = pelatihanService.getTakaPelatihan();
-            model.addAttribute("listPelatihan", listPelatihan);
-        } else if("Gernastastaba".equals(sortType)) {
-            List<Pelatihan> listPelatihan = pelatihanService.getTabaPelatihan();
-            model.addAttribute("listPelatihan", listPelatihan);
-        }
-        return "trainee/trainee-viewall-pelatihan";
-    }
-    @GetMapping("/pelatihan/filterPelatihanTrainer")
-    public String filterPelatihanTrainer(@RequestParam("sortType") String sortType, Model model) {
-        System.out.println("masuk filter");
-        if("All".equals(sortType)){
-            List<Pelatihan> listPelatihan = pelatihanService.getAllPelatihan();
-            model.addAttribute("listPelatihan", listPelatihan);
-        } else if ("Gernastastaka".equals(sortType)) {
-            List<Pelatihan> listPelatihan = pelatihanService.getTakaPelatihanTrainer();
-            model.addAttribute("listPelatihan", listPelatihan);
-        } else if("Gernastastaba".equals(sortType)) {
-            List<Pelatihan> listPelatihan = pelatihanService.getTabaPelatihanTrainer();
-            model.addAttribute("listPelatihan", listPelatihan);
-        }
-        return "trainer/viewall-pelatihan";
-    }
 
-    @GetMapping("/pelatihan/filterDaftarPelatihanSaya")
-    public String filterDaftarPelatihanSaya(@RequestParam("sortType") String sortType, Model model) {
-        System.out.println("masuk filter");
-        if("All".equals(sortType)){
-            var listPendaftaran = pendaftaranService.getPelatihanByAsalSekolah("A");
-            model.addAttribute("listPendaftaran", listPendaftaran);
-        } else if ("Gernastastaka".equals(sortType)) {
-            var listPendaftaran = pendaftaranService.getTakaPelatihanSaya("A");
-            model.addAttribute("listPendaftaran", listPendaftaran);
-        } else if("Gernastastaba".equals(sortType)) {
-            var listPendaftaran = pendaftaranService.getTabaPelatihanSaya(  "A");
-            model.addAttribute("listPendaftaran", listPendaftaran);
-        }
-        return "trainee/daftarPelatihanSaya";
-    }
 }

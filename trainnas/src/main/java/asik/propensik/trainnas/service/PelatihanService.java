@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import asik.propensik.trainnas.repository.PendaftaranDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,6 @@ public class PelatihanService {
     @Autowired
     PelatihanDb pelatihanDb;
 
-    @Autowired
-    private PendaftaranDb pendaftaranDb;
-
     public void addPelatihan(Pelatihan pelatihan) {
         pelatihanDb.save(pelatihan);
     }
@@ -31,10 +27,6 @@ public class PelatihanService {
     }
 
     public void deletePelatihan(Long id) {
-        List<Pendaftaran> pendaftaranList = pendaftaranDb.findByPelatihan_IdPelatihan(id);
-        for (Pendaftaran pendaftaran : pendaftaranList) {
-            pendaftaranDb.delete(pendaftaran);
-        }
         pelatihanDb.deleteById(id);
     }
 
@@ -42,8 +34,8 @@ public class PelatihanService {
         var pelatihan = getPelatihanById(id);
         pelatihan.setStatusApproval(5);
         pelatihanDb.save(pelatihan);
-    }   
-    
+    }
+
     public Pelatihan updatePelatihan(Pelatihan pelatihanFromDto) {
         Pelatihan pelatihan = getPelatihanById(pelatihanFromDto.getIdPelatihan());
 
@@ -55,6 +47,7 @@ public class PelatihanService {
             pelatihan.setTanggal(pelatihanFromDto.getTanggal());
             pelatihan.setNarahubung(pelatihanFromDto.getNarahubung());
             pelatihan.setTipe(pelatihanFromDto.getTipe());
+            pelatihan.setImage(pelatihanFromDto.getImage());
             pelatihan.setStatusApproval(1);
             pelatihanDb.save(pelatihan);
         }
@@ -113,7 +106,7 @@ public class PelatihanService {
 
     public List<Pelatihan> getTabaPelatihan() {
         // Daftar status yang diinginkan: 2 (approved) dan 5 (done)
-        List<Integer> statusList = Arrays.asList( 2, 5);
+        List<Integer> statusList = Arrays.asList(2, 5);
         return pelatihanDb.findByTipeAndStatusApprovalIn("Gernastastaba", statusList);
     }
 

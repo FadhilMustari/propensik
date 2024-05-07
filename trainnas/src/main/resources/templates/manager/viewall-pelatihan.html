@@ -8,25 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>View All Pelatihan</title>
-
-    <style>
-        .btn-custom-size {
-            padding: 0.5rem 1rem; /* Atur padding */
-            font-size: 1rem; /* Atur ukuran font */
-            width: 150px; /* Menetapkan lebar yang sama untuk semua tombol */
-            /* Menyesuaikan tampilan untuk memastikan tombol terlihat rapi */
-            white-space: nowrap; /* Pastikan teks tidak pindah baris */
-            overflow: hidden; /* Sembunyikan teks yang melebihi batas */
-            text-overflow: ellipsis; /* Tambahkan ellipsis jika teks terlalu panjang */
-        }
-    </style>
-
-
 </head>
 
 <body>
     <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
-    <br><br><br>
     <div class="container">
         <div class="text-center pt-5">
             <h2>Daftar Approval Pelatihan</h2>
@@ -47,7 +32,7 @@
                     <td th:text="${iterationStatus.count}"></td>
                     <td th:text="${pelatihan.namaPelatihan}"></td>
                     <td th:text="${pelatihan.deskripsi}"></td>
-                    <td class="waktu-buat" th:text="${pelatihan.waktuPembuatan}"></td>
+                    <td th:text="${pelatihan.waktuPembuatan}"></td>
                     <td>
                         <span th:switch="${pelatihan.statusApproval}">
                             <span th:case="1">Requested</span>
@@ -59,7 +44,7 @@
                         </span>
                     </td>
                     <td>
-                        <a type="button" class="btn btn-md btn-primary btn-custom-size"
+                        <a type="button" class="btn btn-md btn-primary"
                             th:href="@{/pelatihan/detail(id=${pelatihan.idPelatihan})}">Detail</a>
                         <div class="btn-group" th:if="${pelatihan.statusApproval == 1}">
                             <!-- Form untuk Approve -->
@@ -76,7 +61,7 @@
                             <!-- Form untuk Done -->
                             <form th:action="@{/pelatihan/done(id=${pelatihan.idPelatihan})}" method="post">
                                 <input type="hidden" name="idPelatihan" th:value="${pelatihan.idPelatihan}">
-                                <input type="submit" value="Mark as Done" class="btn btn-warning btn-custom-size">
+                                <input type="submit" value="Mark as Done" class="btn btn-warning">
                             </form>
                         </div>
                         <div class="btn-group" th:if="${pelatihan.statusApproval == 4}">
@@ -85,9 +70,9 @@
                                 <input type="hidden" name="idPelatihan" th:value="${pelatihan.idPelatihan}">
                                 <input type="submit" value="Delete" class="btn btn-warning">
                             </form>
-                            <form th:action="@{/pelatihan/approve(id=${pelatihan.idPelatihan})}" method="post">
+                            <form th:action="@{/pelatihan/ignore(id=${pelatihan.idPelatihan})}" method="post">
                                 <input type="hidden" name="idPelatihan" th:value="${pelatihan.idPelatihan}">
-                                <input type="submit" value="Ignore" class="btn btn-danger">
+                                <input type="submit" value="Ignore" class="btn btn-warning">
                             </form>
                         </div>
 
@@ -129,20 +114,6 @@
                 ]
             });
         });
-        document.addEventListener("DOMContentLoaded", function() {
-        // Pilih semua elemen yang memiliki class 'waktu-buat'
-            document.querySelectorAll('.waktu-buat').forEach(function(elem) {
-                // Ambil teks isi elemen (waktu ISO 8601)
-                var waktuISO = elem.textContent;
-                // Ubah menjadi objek Date
-                var date = new Date(waktuISO);
-                // Format ulang tanggal: gunakan format yang Anda inginkan
-                var formattedDate = date.toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                // Ganti teks elemen dengan tanggal yang sudah diformat
-                elem.textContent = formattedDate;
-            });
-        });
-
     </script>
 </body>
 
