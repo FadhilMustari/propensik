@@ -42,7 +42,10 @@ public class PelatihanController {
     PendaftaranService pendaftaranService;
     
     @RequestMapping("/")
-    public String hello() {
+    public String hello(Model model) {
+        List<Pelatihan> listPelatihan = pelatihanService.getAllApprovedPelatihan();
+
+        model.addAttribute("listPelatihan", listPelatihan);
         return "home";
     }
 
